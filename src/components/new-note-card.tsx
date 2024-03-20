@@ -3,7 +3,14 @@ import { X } from "lucide-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "sonner";
 
-export function NewNoteCard() {
+interface NewNoteCard {
+  notes: { id: string; date: Date; content: string }[];
+  setNotes: React.Dispatch<
+    React.SetStateAction<{ id: string; date: Date; content: string }[]>
+  >;
+}
+
+export function NewNoteCard({ setNotes, notes }: NewNoteCard) {
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(true);
   const [content, setContent] = useState("");
 
@@ -16,8 +23,19 @@ export function NewNoteCard() {
 
   function handleSaveNote(event: FormEvent) {
     event.preventDefault();
-    console.log("oi");
-    toast.success("Nota salva");
+    if (content !== "") {
+      const allNotes = [
+        { id: crypto.randomUUID(), date: new Date(), content },
+        ...notes,
+      ];
+
+      setNotes(allNotes);
+      localStorage.setItem("notes", JSON.stringify(allNotes));
+      setContent("");
+      toast.success("Nota salva");
+    } else {
+      toast.error("Preencha a nota");
+    }
   }
 
   return (
@@ -61,6 +79,7 @@ export function NewNoteCard() {
                   autoFocus
                   className="text-sm leading-6 text-slate-400 bg-transparent resize-none flex-1 outline-none"
                   onChange={handleContentChange}
+                  value={content}
                 />
               )}
             </div>
