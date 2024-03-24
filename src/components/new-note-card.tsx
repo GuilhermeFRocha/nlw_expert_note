@@ -97,8 +97,14 @@ export function NewNoteCard({ setNotes, notes }: NewNoteCard) {
 
       <Dialog.Portal>
         <Dialog.Overlay className="bg-black/50 inset-0 fixed" />
-        <Dialog.Content className="fixed overflow-hidden top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-w-[640px] w-full h-[60vh] rounded-md bg-slate-700 flex flex-col outline-none">
-          <Dialog.Close className="absolute top-0 right-0 bg-slate-800 p-1.5 text-slate-400 hover:text-slate-100">
+        <Dialog.Content className="fixed overflow-hidden inset-0 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-[640px] w-full md:h-[60vh] md:rounded-md bg-slate-700 flex flex-col outline-none">
+          <Dialog.Close
+            className="absolute top-0 right-0 bg-slate-800 p-1.5 text-slate-400 hover:text-slate-100"
+            onClick={() => {
+              setContent("");
+              setShouldShowOnboarding(true);
+            }}
+          >
             <X className="size-5" />
           </Dialog.Close>
 
